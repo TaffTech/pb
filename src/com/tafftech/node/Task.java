@@ -7,7 +7,6 @@ public abstract class Task extends ClientAccessor {
     public Task(ClientContext ctx) {
         super(ctx);
     }
-
     public abstract boolean validate();
     public abstract void execute();
 }
