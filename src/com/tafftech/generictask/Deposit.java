@@ -44,17 +44,21 @@ public class Deposit extends Task{
                 }
             });
         } else {
-            final List<String> namesList = Arrays.asList(itemsToKeep);
             ctx.backpack.select().select(new Filter<Item>() {
                 @Override
                 public boolean accept(Item item) {
-                    return !namesList.contains(item.name());
+                    for (String s : itemsToKeep) {
+                        if (s.equals(item.name()))
+                            return false;
+                    }
+                    return true;
                 }
-            }).forEach(new Consumer<Item>() {
+            }).each(new Filter<Item>() {
                 @Override
-                public void accept(Item item) {
+                public boolean accept(Item item) {
                     ctx.bank.deposit(item.id(), 0);
                     Condition.sleep(750);
+                    return true;
                 }
             });
         }
